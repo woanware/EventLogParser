@@ -66,94 +66,94 @@ namespace woanware
             Computer = GetStringNodeValue(xmlDocument, "Computer");
             Sid = GetStringNodeAttribute(xmlDocument, "Security", "UserID");
 
-            LoadMessageResources(registryFile, drive, resourceMode);
+            //LoadMessageResources(registryFile, drive, resourceMode);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="registryFile"></param>
-        /// <param name="drive"></param>
-        /// <param name="resourceMode"></param>
-        private void LoadMessageResources(string registryFile,
-                                          string drive,
-                                          EvtxParser.ResourceMode resourceMode)
-        {
-            //string resourceFileName = string.Empty;
-            string messageFileName = string.Empty;
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="registryFile"></param>
+        ///// <param name="drive"></param>
+        ///// <param name="resourceMode"></param>
+        //private void LoadMessageResources(string registryFile,
+        //                                  string drive,
+        //                                  EvtxParser.ResourceMode resourceMode)
+        //{
+        //    //string resourceFileName = string.Empty;
+        //    string messageFileName = string.Empty;
 
-            if (resourceMode == EvtxParser.ResourceMode.LocalSystem)
-            {
-                try
-                {
-                    RegistryKey registryKey;
-                    if (Environment.Is64BitOperatingSystem == true)
-                    {
-                        registryKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
-                    }
-                    else
-                    {
-                        registryKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry32);
-                    }
+        //    if (resourceMode == EvtxParser.ResourceMode.LocalSystem)
+        //    {
+        //        try
+        //        {
+        //            RegistryKey registryKey;
+        //            if (Environment.Is64BitOperatingSystem == true)
+        //            {
+        //                registryKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
+        //            }
+        //            else
+        //            {
+        //                registryKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry32);
+        //            }
 
-                    if (registryKey == null)
-                    {
-                        return;
-                    }
+        //            if (registryKey == null)
+        //            {
+        //                return;
+        //            }
 
-                    registryKey = registryKey.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\WINEVT\Publishers\" + ProviderGuid);
-                    if (registryKey == null)
-                    {
-                        return;
-                    }
+        //            registryKey = registryKey.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\WINEVT\Publishers\" + ProviderGuid);
+        //            if (registryKey == null)
+        //            {
+        //                return;
+        //            }
 
-                    string ret = registryKey.GetValue("MessageFileName").ToString();
-                    if (ret == null)
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        messageFileName = ret.ToString();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return;
-                }
-            }
-            else
-            {
-                RegParser regParser = new RegParser(registryFile);
+        //            string ret = registryKey.GetValue("MessageFileName").ToString();
+        //            if (ret == null)
+        //            {
+        //                return;
+        //            }
+        //            else
+        //            {
+        //                messageFileName = ret.ToString();
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        RegParser regParser = new RegParser(registryFile);
 
-                RegKey rootKey = regParser.RootKey;
+        //        RegKey rootKey = regParser.RootKey;
 
-                RegKey regKey = rootKey.Key("Microsoft\\Windows NT\\CurrentVersion\\WINEVT\\Publishers\\" + ProviderGuid);
+        //        RegKey regKey = rootKey.Key("Microsoft\\Windows NT\\CurrentVersion\\WINEVT\\Publishers\\" + ProviderGuid);
 
-                if (regKey == null)
-                {
-                    return;
-                }
+        //        if (regKey == null)
+        //        {
+        //            return;
+        //        }
 
-                RegValue regValue = regKey.Value("MessageFileName");
-                if (regValue == null)
-                {
-                    return;
-                }
+        //        RegValue regValue = regKey.Value("MessageFileName");
+        //        if (regValue == null)
+        //        {
+        //            return;
+        //        }
 
-                messageFileName = Helper.ReplaceNulls(regValue.Data.ToString());
-            }
+        //        messageFileName = Helper.ReplaceNulls(regValue.Data.ToString());
+        //    }
 
-            if (messageFileName.Length == 0)
-            {
-                return;
-            }
+        //    if (messageFileName.Length == 0)
+        //    {
+        //        return;
+        //    }
 
-            int temp1  = this.HighWord((int)EventId);
-            int temp2 = this.LowWord((int)EventId);
+        //    int temp1  = this.HighWord((int)EventId);
+        //    int temp2 = this.LowWord((int)EventId);
 
-            string message = this.GetMessageTableString(messageFileName,(uint)EventId);
-        }
+        //    string message = this.GetMessageTableString(messageFileName,(uint)EventId);
+        //}
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, uint dwFlags);

@@ -48,63 +48,63 @@ namespace woanware
         /// 
         /// </summary>
         /// <returns></returns>
-        public string LoadSystemRoot()
-        {
-            if (ResourceMode == EvtxParser.ResourceMode.LocalSystem)
-            {
-                try
-                {
-                    RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Windows NT\\CurrentVersion");
-                    if (registryKey == null)
-                    {
-                        return "Unable to locate registry key: Microsoft\\Windows NT\\CurrentVersion";
-                    }
+        //public string LoadSystemRoot()
+        //{
+        //    if (ResourceMode == EvtxParser.ResourceMode.LocalSystem)
+        //    {
+        //        try
+        //        {
+        //            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Windows NT\\CurrentVersion");
+        //            if (registryKey == null)
+        //            {
+        //                return "Unable to locate registry key: Microsoft\\Windows NT\\CurrentVersion";
+        //            }
 
-                    string ret = registryKey.GetValue("SystemRoot").ToString();
-                    if (ret == null)
-                    {
-                        return "Unable to locate registry value: SystemRoot";
-                    }
-                    else
-                    {
-                        SystemRoot = ret.ToString();
-                    }
-                }
-                catch (SecurityException)
-                {
-                    return "Unable to retrieve registry key: Microsoft\\Windows NT\\CurrentVersion\\SystemRoot due to security permissions";
-                }
-                catch (Exception)
-                {
-                    return "Unable to retrieve registry key: Microsoft\\Windows NT\\CurrentVersion\\SystemRoot";
-                }
-            }
-            else
-            {
-                RegParser regParser = new RegParser(RegistryFile);
+        //            string ret = registryKey.GetValue("SystemRoot").ToString();
+        //            if (ret == null)
+        //            {
+        //                return "Unable to locate registry value: SystemRoot";
+        //            }
+        //            else
+        //            {
+        //                SystemRoot = ret.ToString();
+        //            }
+        //        }
+        //        catch (SecurityException)
+        //        {
+        //            return "Unable to retrieve registry key: Microsoft\\Windows NT\\CurrentVersion\\SystemRoot due to security permissions";
+        //        }
+        //        catch (Exception)
+        //        {
+        //            return "Unable to retrieve registry key: Microsoft\\Windows NT\\CurrentVersion\\SystemRoot";
+        //        }
+        //    }
+        //    else
+        //    {
+        //        RegParser regParser = new RegParser(RegistryFile);
 
-                RegKey rootKey = regParser.RootKey;
+        //        RegKey rootKey = regParser.RootKey;
 
-                RegKey regKey = rootKey.Key("Microsoft\\Windows NT\\CurrentVersion");
+        //        RegKey regKey = rootKey.Key("Microsoft\\Windows NT\\CurrentVersion");
 
-                if (regKey == null)
-                {
-                    return "Unable to locate registry key: Microsoft\\Windows NT\\CurrentVersion";
-                }
+        //        if (regKey == null)
+        //        {
+        //            return "Unable to locate registry key: Microsoft\\Windows NT\\CurrentVersion";
+        //        }
 
-                RegValue regValue = regKey.Value("SystemRoot");
-                if (regValue == null)
-                {
-                    return "Unable to locate registry value: SystemRoot";
-                }
+        //        RegValue regValue = regKey.Value("SystemRoot");
+        //        if (regValue == null)
+        //        {
+        //            return "Unable to locate registry value: SystemRoot";
+        //        }
 
-                SystemRoot = Helper.ReplaceNulls(regValue.Data.ToString());
+        //        SystemRoot = Helper.ReplaceNulls(regValue.Data.ToString());
 
-                return string.Empty;
-            }
+        //        return string.Empty;
+        //    }
 
-            return string.Empty;
-        }
+        //    return string.Empty;
+        //}
         #endregion
     }
 }

@@ -69,12 +69,12 @@ namespace woanware
                 EvtxFile.Drive = drive;
                 EvtxFile.ResourceMode = resourceMode;
 
-                string ret = EvtxFile.LoadSystemRoot();
-                if (ret.Length > 0)
-                {
-                    OnError(ret);
-                    return;
-                }
+                //string ret = EvtxFile.LoadSystemRoot();
+                //if (ret.Length > 0)
+                //{
+                //    OnError(ret);
+                //    return;
+                //}
 
                 _fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
